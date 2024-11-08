@@ -1,0 +1,18 @@
+cmdline:'./fuzz ___FILE___', bin:'./fuzz' inputDir:'./', fuzzStdin:false, mutationsPerRun:6, externalCommand:'', timeout:10, mutationsMax:0, threadsMax:1
+[2J[500BEntering phase 1/3: Dry Run
+Launched new fuzzing thread, no. #0
+Size:728 (i,b,hw,edge,ip,cmp): 0/0/0/0/1/6, Tot:0/0/0/0/1/6
+Entering phase 2/3: Switching to Dynamic Main (Feedback Driven Mode)
+Entering phase 3/3: Dynamic Main (Feedback Driven Mode)
+Size:222 (i,b,hw,edge,ip,cmp): 0/0/0/0/1/0, Tot:0/0/0/0/2/6
+Maximum run time reached, terminating
+Coverage:
+[SF], 0x52c7e8: 5700
+[SF], 0x52cb78: 5700
+[SF], 0x52ccb1: 5700
+[SF], 0x52cd51: 5700
+[SF], 0x52cf39: 5700
+[SF], 0x52d018: 5700
+Terminating thread no. #0, left: 1
+Summary iterations:5701 time:11 speed:518
+[r[500B

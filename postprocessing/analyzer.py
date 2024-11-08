@@ -479,23 +479,23 @@ class SymbolizedFault:
     faults: List
 
     # aggregated data
-    accessed_addresses: Set[int]
-    offsets: Set[int]
-    fault_counts: List[int]
+    # accessed_addresses: Set[int]
+    # offsets: Set[int]
+    # fault_counts: List[int]
     controlled: bool = False
     controlled_offset: bool = False
     branches: Dict[int, Tuple[int, str]]
-    types: Set[int]
+    # types: Set[int]
     order: int = 1000
 
     def __init__(self, locations):
         self.location = locations
         self.faults = []
-        self.accessed_addresses = set()
-        self.offsets = set()
-        self.fault_counts = []
+        # self.accessed_addresses = set()
+        # self.offsets = set()
+        # self.fault_counts = []
         self.branches = {}
-        self.types = set()
+        # self.types = set()
 
     def __lt__(self, other: 'SymbolizedFault'):
         return self.location[0] < other.location[0]
@@ -504,24 +504,24 @@ class SymbolizedFault:
         return {
             "location": self.get_location(),
             "faults": self.faults,
-            "accessed_addresses": list(self.accessed_addresses),
-            "offsets": list(self.offsets),
-            "fault_counts": self.fault_counts,
+            # "accessed_addresses": list(self.accessed_addresses),
+            # "offsets": list(self.offsets),
+            # "fault_counts": self.fault_counts,
             "controlled": self.controlled,
             "controlled_offset": self.controlled_offset,
-            "types": list(self.types),
+            # "types": list(self.types),
             "order": self.order,
         }
 
     def load(self, data: Dict):
         self.location = data["location"].split(" < ")
         self.faults = data["faults"]
-        self.accessed_addresses = set([int(i) for i in data["accessed_addresses"]])
-        self.offsets = set([int(i) for i in data["offsets"]])
-        self.fault_counts = [int(i) for i in data["fault_counts"]]
+        # self.accessed_addresses = set([int(i) for i in data["accessed_addresses"]])
+        # self.offsets = set([int(i) for i in data["offsets"]])
+        # self.fault_counts = [int(i) for i in data["fault_counts"]]
         self.controlled = bool(data["controlled"])
         self.controlled_offset = bool(data["controlled_offset"])
-        self.types = set([int(i) for i in data["types"]])
+        # self.types = set([int(i) for i in data["types"]])
         self.order = int(data["order"])
 
     def get_location(self) -> str:
@@ -529,14 +529,14 @@ class SymbolizedFault:
 
     def aggregate(self):
         for f in self.faults:
-            for i in f["accessed_addresses"]:
-                self.accessed_addresses.add(i)
-            for i in f["offsets"]:
-                self.offsets.add(i)
-            for i in f["types"]:
-                self.types.add(i)
-            self.fault_counts.append(f["fault_count"])
-            self.controlled |= f["controlled"]
+            # for i in f["accessed_addresses"]:
+            #     self.accessed_addresses.add(i)
+            # for i in f["offsets"]:
+            #     self.offsets.add(i)
+            # for i in f["types"]:
+            #     self.types.add(i)
+            # self.fault_counts.append(f["fault_count"])
+            # self.controlled |= f["controlled"]
             self.controlled_offset |= f["controlled_offset"]
             self.order = f["order"] if f["order"] < self.order else self.order
 
@@ -547,15 +547,15 @@ class SymbolizedBranch:
 
     # aggregated data
     symbolized_faults: Set[str]
-    fault_counts: List[int]
-    nonspeculative_execution_counts: List[int]
+    # fault_counts: List[int]
+    # nonspeculative_execution_counts: List[int]
 
     def __init__(self, locations):
         self.location = locations
         self.branches = []
         self.symbolized_faults = set()
-        self.fault_counts = []
-        self.nonspeculative_execution_counts = []
+        # self.fault_counts = []
+        # self.nonspeculative_execution_counts = []
 
     def __lt__(self, other: 'SymbolizedBranch'):
         return self.location[0] < other.location[0]
@@ -565,25 +565,24 @@ class SymbolizedBranch:
             "location": self.get_location(),
             "branches": self.branches,
             "symbolized_faults": list(self.symbolized_faults),
-            "fault_counts": self.fault_counts,
-            "nonspeculative_execution_counts": self.nonspeculative_execution_counts
+            # "fault_counts": self.fault_counts,
+            # "nonspeculative_execution_counts": self.nonspeculative_execution_counts
         }
 
     def load(self, data):
         self.location = data["location"].split(" < ")
         self.branches = data["branches"]
         self.symbolized_faults = data["symbolized_faults"]
-        self.fault_counts = [int(c) for c in data["fault_counts"]]
-        self.nonspeculative_execution_counts = \
-            [int(c) for c in data["nonspeculative_execution_counts"]]
-
+        # self.fault_counts = [int(c) for c in data["fault_counts"]]
+        # self.nonspeculative_execution_counts = \
+        #     [int(c) for c in data["nonspeculative_execution_counts"]]
     def get_location(self) -> str:
         return " < ".join(self.location)
 
     def aggregate(self, symbolizer: Symbolizer):
         for b in self.branches:
-            self.fault_counts.append(b["fault_count"])
-            self.nonspeculative_execution_counts.append(b["nonspeculative_execution_count"])
+            # self.fault_counts.append(b["fault_count"])
+            # self.nonspeculative_execution_counts.append(b["nonspeculative_execution_count"])
             for fault_address in b["faults"]:
                 self.symbolized_faults.add(symbolizer.symbolize_one(fault_address)[0])
 
@@ -644,6 +643,17 @@ def build_aggregated_report(input_, output, symbolizer_path, binary, consider_ca
         data = json.load(in_file)
         faults = data["faults"]
         branches = data["branches"]
+
+    for key, fault in faults.items():
+        fault.pop("fault_count", None)  
+        fault.pop("accessed_addresses", None)
+        fault.pop("offsets", None)
+        fault.pop("types", None)
+        fault.pop("branch_sequences", None)
+
+    for key, branch in branches.items():
+        branch.pop("fault_counts", None)  
+        branch.pop("nonspeculative_execution_counts", None)
 
     symbolizer = Symbolizer(symbolizer_path, binary)
     symbolizer.start()

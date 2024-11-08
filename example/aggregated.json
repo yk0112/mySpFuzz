@@ -1,0 +1,108 @@
+{
+  "branches": {
+    "/workspace/SpecFuzz/example/fuzz.c:14:0": {
+      "location": "/workspace/SpecFuzz/example/fuzz.c:14:0",
+      "branches": [
+        {
+          "address": "0x52d018",
+          "faults": [
+            "0x52c928"
+          ],
+          "fault_count": 5700,
+          "nonspeculative_execution_count": 5700
+        },
+        {
+          "address": "0x52c7e8",
+          "faults": [],
+          "fault_count": 0,
+          "nonspeculative_execution_count": 5700
+        }
+      ],
+      "symbolized_faults": [
+        "/workspace/SpecFuzz/example/fuzz.c:14:0"
+      ]
+    },
+    "/workspace/SpecFuzz/example/fuzz.c:9:9": {
+      "location": "/workspace/SpecFuzz/example/fuzz.c:9:9 < /workspace/SpecFuzz/example/fuzz.c:35:0",
+      "branches": [
+        {
+          "address": "0x52cd51",
+          "faults": [
+            "0x52cd96"
+          ],
+          "fault_count": 2061,
+          "nonspeculative_execution_count": 5700
+        }
+      ],
+      "symbolized_faults": [
+        "/workspace/SpecFuzz/example/fuzz.c:10:24"
+      ]
+    },
+    "/workspace/SpecFuzz/example/fuzz.c:21:9": {
+      "location": "/workspace/SpecFuzz/example/fuzz.c:21:9",
+      "branches": [
+        {
+          "address": "0x52cb78",
+          "faults": [],
+          "fault_count": 0,
+          "nonspeculative_execution_count": 5700
+        }
+      ],
+      "symbolized_faults": []
+    },
+    "/workspace/SpecFuzz/example/fuzz.c:28:9": {
+      "location": "/workspace/SpecFuzz/example/fuzz.c:28:9",
+      "branches": [
+        {
+          "address": "0x52ccb1",
+          "faults": [],
+          "fault_count": 0,
+          "nonspeculative_execution_count": 5700
+        }
+      ],
+      "symbolized_faults": []
+    },
+    "/workspace/SpecFuzz/example/fuzz.c:37:5": {
+      "location": "/workspace/SpecFuzz/example/fuzz.c:37:5",
+      "branches": [
+        {
+          "address": "0x52cf39",
+          "faults": [],
+          "fault_count": 0,
+          "nonspeculative_execution_count": 5700
+        }
+      ],
+      "symbolized_faults": []
+    }
+  },
+  "faults": {
+    "/workspace/SpecFuzz/example/fuzz.c:14:0": {
+      "location": "/workspace/SpecFuzz/example/fuzz.c:14:0",
+      "faults": [
+        {
+          "address": "0x52c928",
+          "order": 1,
+          "controlled": false,
+          "controlled_offset": false
+        }
+      ],
+      "controlled": false,
+      "controlled_offset": false,
+      "order": 1
+    },
+    "/workspace/SpecFuzz/example/fuzz.c:10:24": {
+      "location": "/workspace/SpecFuzz/example/fuzz.c:10:24 < /workspace/SpecFuzz/example/fuzz.c:35:0",
+      "faults": [
+        {
+          "address": "0x52cd96",
+          "order": 1,
+          "controlled": true,
+          "controlled_offset": false
+        }
+      ],
+      "controlled": false,
+      "controlled_offset": false,
+      "order": 1
+    }
+  }
+}
